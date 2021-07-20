@@ -1,0 +1,14 @@
+{
+  "name": "maky-cli",
+  "version": "1.0.0",
+  "description": "cli to automate component creation in react native expo project",
+  "main": "bin/index.js",
+  "scripts": {
+    "test": "maky-cli -test"
+  },
+  "author": "Abdullah Yasir",
+  "license": "ISC",
+  "bin": {
+    "maky-cli": "./bin/index.js"
+  }
+}
