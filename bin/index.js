@@ -45,8 +45,8 @@ require('yargs/yargs')(process.argv.slice(2))
     handler: modelHandler
   })
   .command({
-    command: 'init <project_name>',
-    aliases: ['mod'],
+    command: 'initialize <project_name>',
+    aliases: ['init'],
     desc: 'create a project',
     handler: projectInitHandler
   })
