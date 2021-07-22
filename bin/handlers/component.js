@@ -24,6 +24,15 @@ const compBody = (name) => {
 }
 
 module.exports = (argv) => {
+  // check if components folder exists
+  // if doesn't try to create new one
+  try {
+    if (!fs.existsSync(componentsFolder)) {
+      fs.mkdirSync(componentsFolder)
+    }
+  } catch (err) {
+    console.log(`Unable to create ${componentsFolder} folder`);
+  }
   // capitalize first char of str
   const componentName = argv.name;
   const exportLine = `export { default as ${componentName} } from './${componentName}'; ${os.EOL}`
