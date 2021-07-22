@@ -1,1 +1,4 @@
-const INIT_MAP = 'INIT_MAP'; 
+
+export const LOAD_FOLDERS = 'LOAD_FOLDERS';
+export const HEADER_STYLE = 'NORMAL'; 
+export const HEADER_STYLE = 'normal'; 
