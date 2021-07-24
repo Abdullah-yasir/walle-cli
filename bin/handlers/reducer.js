@@ -1,7 +1,7 @@
 const fs = require('fs');
 const os = require('os');
-
-const reducersFolder = './test/reducers';
+const configProvider = require("../utils/configProvider");
+const { reducers: reducersFolder } = configProvider().directories;
 
 // to do create all required constants first
 // then put all in import of reducer
@@ -59,7 +59,7 @@ module.exports = (argv) => {
   // if doesn't try to create new one
   try {
     if (!fs.existsSync(reducersFolder)) {
-      fs.mkdirSync(reducersFolder)
+      fs.mkdirSync(reducersFolder, { recursive: true })
     }
   } catch (err) {
     console.log(`Unable to create ${reducersFolder} folder`);

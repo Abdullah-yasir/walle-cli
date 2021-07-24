@@ -1,7 +1,7 @@
 const fs = require('fs');
 const os = require('os');
-
-const componentsFolder = './test/components';
+const configProvider = require("../utils/configProvider");
+const { components: componentsFolder } = configProvider().directories;
 
 const compBody = (name) => {
   return `
@@ -28,7 +28,7 @@ module.exports = (argv) => {
   // if doesn't try to create new one
   try {
     if (!fs.existsSync(componentsFolder)) {
-      fs.mkdirSync(componentsFolder)
+      fs.mkdirSync(componentsFolder, { recursive: true })
     }
   } catch (err) {
     console.log(`Unable to create ${componentsFolder} folder`);
