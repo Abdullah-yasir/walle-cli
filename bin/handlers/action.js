@@ -1,7 +1,7 @@
 const fs = require('fs');
 const os = require('os');
-
-const actionsFolder = './test/actions';
+const configProvider = require("../utils/configProvider");
+const { actions: actionsFolder } = configProvider().directories;
 
 const actionBody = (params) => {
   const { name, actionType, endpoint } = params;
@@ -46,6 +46,7 @@ module.exports = (argv) => {
   const actionName = argv.name;
   const exportLine = `export { default as ${actionName} } from './${actionName}'; ${os.EOL}`;
   const config = { name: actionName, actionType: 'ACTION_NAME_SNAKE_CASE', endpoint: '/' };
+
   const fsCallback = (err) => {
     if (err) console.log(err);
     console.log(`created action ${argv.name}`);
@@ -54,7 +55,7 @@ module.exports = (argv) => {
   // if doesn't try to create new one
   try {
     if (!fs.existsSync(actionsFolder)) {
-      fs.mkdirSync(actionsFolder)
+      fs.mkdirSync(actionsFolder, { recursive: true })
     }
   } catch (err) {
     console.log(`Unable to create ${actionsFolder} folder`);
