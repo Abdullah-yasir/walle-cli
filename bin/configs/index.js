@@ -1,7 +1,4 @@
-const fs = require('fs');
-
-
-const dirStructure = [
+export const dirStructure = [
   './src',
   './src/backend',
   './src/backend/store',
@@ -36,13 +33,3 @@ const struct = {
   }
 }
 
-module.exports = (argv) => {
-  try {
-    dirStructure.forEach((dir) => {
-      !fs.existsSync(dir) && fs.mkdirSync(dir)
-    })
-  } catch (err) {
-    console.log('could not create dir')
-  }
-  console.log(`setting ${argv.project_name}`)
-}
