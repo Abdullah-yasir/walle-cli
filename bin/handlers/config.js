@@ -1,13 +1,11 @@
 const fs = require('fs');
-import { dirStructure } from '../configs'
+const { CONFIG_DEFAULTS, CONFIG_FILENAME } = require("../constants");
+
 
 module.exports = (argv) => {
-  try {
-    dirStructure.forEach((dir) => {
-      !fs.existsSync(dir) && fs.mkdirSync(dir)
+  !fs.existsSync(CONFIG_FILENAME) &&
+    fs.writeFileSync(CONFIG_FILENAME, JSON.stringify(CONFIG_DEFAULTS), function (err) {
+      if (err) console.log(err);
+      console.log('created config file');
     })
-  } catch (err) {
-    console.log('could not create dir')
-  }
-  console.log(`setting ${argv.project_name}`)
 }

@@ -6,6 +6,8 @@ const actionHandler = require("./handlers/action");
 const modelHandler = require("./handlers/model");
 const reducerHandler = require("./handlers/reducer");
 const projectInitHandler = require("./handlers/init")
+const configHandler = require("./handlers/config");
+
 
 require('yargs/yargs')(process.argv.slice(2))
   .command({
@@ -49,6 +51,12 @@ require('yargs/yargs')(process.argv.slice(2))
     aliases: ['init'],
     desc: 'create a project',
     handler: projectInitHandler
+  })
+  .command({
+    command: 'config',
+    aliases: ['cfg'],
+    desc: 'create a config file for cli',
+    handler: configHandler
   })
   .demandCommand()
   .help()
