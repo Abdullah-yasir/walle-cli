@@ -7,7 +7,7 @@ const modelHandler = require("./handlers/model");
 const reducerHandler = require("./handlers/reducer");
 const projectInitHandler = require("./handlers/init")
 const configHandler = require("./handlers/config");
-
+const srcTemplateHandler = require("./handlers/srcTemplate");
 
 require('yargs/yargs')(process.argv.slice(2))
   .command({
@@ -47,10 +47,16 @@ require('yargs/yargs')(process.argv.slice(2))
     handler: modelHandler
   })
   .command({
-    command: 'initialize <project_name>',
+    command: 'initialize <projectName>',
     aliases: ['init'],
-    desc: 'create a project',
+    desc: 'create new project',
     handler: projectInitHandler
+  })
+  .command({
+    command: 'template',
+    aliases: ['temp'],
+    desc: 'create template src folder',
+    handler: srcTemplateHandler
   })
   .command({
     command: 'config',

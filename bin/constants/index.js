@@ -27,10 +27,12 @@ const CONFIG_DEFAULTS = {
 }
 
 const CONFIG_FILENAME = './makycli.json';
+const PROJECT_CLONE_SOURCE = 'https://github.com/Abdullah-yasir/java_assin_11mr21.git';
 
 module.exports = {
   DIR_STRUCTURE,
   CONFIG_FILENAME,
-  CONFIG_DEFAULTS
+  CONFIG_DEFAULTS,
+  PROJECT_CLONE_SOURCE
 }
 

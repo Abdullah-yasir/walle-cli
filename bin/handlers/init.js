@@ -1,14 +1,30 @@
 const fs = require('fs');
-const { DIR_STRUCTURE } = require('../constants');
-
+const { spawn } = require('child_process');
+const { PROJECT_CLONE_SOURCE } = require('../constants');
 
 module.exports = (argv) => {
-  try {
-    DIR_STRUCTURE.forEach((dir) => {
-      !fs.existsSync(dir) && fs.mkdirSync(dir)
-    })
-  } catch (err) {
-    console.log('could not create dir')
-  }
-  console.log(`created src dir`)
+  const { projectName } = argv;
+  const cloneProject = spawn('git', ['clone', PROJECT_CLONE_SOURCE, projectName])
+
+  cloneProject.stdout.on("data", data => {
+    console.log(`status: ${data}`);
+  });
+
+  cloneProject.stderr.on("data", data => {
+    console.log(`status: ${data}`);
+  });
+
+  cloneProject.on('error', (error) => {
+    console.log(`error: ${error.message}`);
+  });
+
+  cloneProject.on("close", code => {
+    if (code === 0) {
+      console.log(`Created new project ${projectName}`);
+      console.log(`Navigate into project folder by typing:`);
+      console.log(`> cd ${projectName}`);
+      return;
+    }
+    console.log(`child process exited with code ${code}`);
+  });
 }
