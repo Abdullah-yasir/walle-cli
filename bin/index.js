@@ -27,7 +27,7 @@ require('yargs/yargs')(process.argv.slice(2))
     handler: screenHandler
   })
   .command({
-    command: 'action <name>',
+    command: 'action <name> [type] [endpoint]',
     aliases: ['act'],
     desc: 'create an action',
     handler: actionHandler
