@@ -1,6 +1,6 @@
 const fs = require('fs');
 const os = require('os');
-const { camelToSnakeCase } = require('../utils');
+const { camelToSnakeCase, makeDirRecursive, osPath } = require('../utils');
 const configProvider = require("../utils/configProvider");
 
 module.exports = (argv) => {
@@ -8,18 +8,14 @@ module.exports = (argv) => {
   const constantName = camelToSnakeCase(argv.key).toUpperCase(); // convert snake case then uppercase
   const constantValue = argv.value || constantName; // convert snake case then uppercase
   const constString = `export const ${constantName} = '${constantValue}'; ${os.EOL}`; // string to write in file
+  const constantPath = `${constantsFolder}/index.js`;
   const appendFileCallback = (err) => {
     if (err) console.log(err);
-    console.log(`created const ${constantName} = '${constantValue}'`)
+    console.log(`created const ${osPath(constantPath)}'`);
+    console.log(`const ${constantName} = '${constantValue}'`);
   }
 
-  try {
-    if (!fs.existsSync(constantsFolder)) {
-      fs.mkdirSync(constantsFolder, { recursive: true })
-    }
-  } catch (err) {
-    console.log(`Unable to create ${constantsFolder} folder`);
-  }
+  makeDirRecursive(constantsFolder);
 
-  fs.appendFile(`${constantsFolder}/index.js`, constString, appendFileCallback)
+  fs.appendFile(constantPath, constString, appendFileCallback)
 }

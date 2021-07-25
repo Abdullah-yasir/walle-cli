@@ -1,5 +1,6 @@
 const fs = require('fs');
 const os = require('os');
+const { makeDirRecursive, capitalize, osPath } = require('../utils');
 const configProvider = require("../utils/configProvider");
 
 const compBody = (name) => {
@@ -24,24 +25,17 @@ const compBody = (name) => {
 
 module.exports = (argv) => {
   const { components: componentsFolder } = configProvider().directories;
-  // check if components folder exists
-  // if doesn't try to create new one
-  try {
-    if (!fs.existsSync(componentsFolder)) {
-      fs.mkdirSync(componentsFolder, { recursive: true })
-    }
-  } catch (err) {
-    console.log(`Unable to create ${componentsFolder} folder`);
-  }
-  // capitalize first char of str
-  const componentName = argv.name;
+  makeDirRecursive(componentsFolder); // create comp folder if doesn't exist
+  const componentName = capitalize(argv.name);
+  const compPath = `${componentsFolder}/${componentName}.js`;
   const exportLine = `export { default as ${componentName} } from './${componentName}'; ${os.EOL}`
+
   const fsCallback = (err) => {
     if (err) console.log(err);
-    console.log(`created component ${argv.name}`);
+    console.log(`created component ${osPath(compPath)}`);
   }
   // create component file
-  fs.writeFile(`${componentsFolder}/${componentName}.js`, compBody(componentName), fsCallback);
+  fs.writeFile(compPath, compBody(componentName), fsCallback);
   // create import of comp in index file
   fs.appendFile(`${componentsFolder}/index.js`, exportLine, fsCallback)
 }

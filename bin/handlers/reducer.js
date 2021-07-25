@@ -1,5 +1,6 @@
 const fs = require('fs');
 const os = require('os');
+const { makeDirRecursive, osPath } = require('../utils');
 const configProvider = require("../utils/configProvider");
 
 // to do create all required constants first
@@ -52,22 +53,16 @@ module.exports = (argv) => {
   const reducerName = argv.name;
   const exportLine = `export { default as ${reducerName} } from './${reducerName}'; ${os.EOL}`;
   const config = { name: reducerName, reducerType: 'reducer_NAME_SNAKE_CASE', endpoint: '/' };
+  const reducerPath = `${reducersFolder}/${reducerName}.js`;
+
   const fsCallback = (err) => {
     if (err) console.log(err);
-    console.log(`created reducer ${argv.name}`);
+    console.log(`created reducer ${osPath(reducerPath)}`);
   }
-  // check if reducers folder exists
-  // if doesn't try to create new one
-  try {
-    if (!fs.existsSync(reducersFolder)) {
-      fs.mkdirSync(reducersFolder, { recursive: true })
-    }
-  } catch (err) {
-    console.log(`Unable to create ${reducersFolder} folder`);
-  }
+  makeDirRecursive(reducersFolder); // create folder if doesn't exist
 
   // create reducer file
-  fs.writeFile(`${reducersFolder}/${reducerName}.js`, reducerBody(config), fsCallback);
+  fs.writeFile(reducerPath, reducerBody(config), fsCallback);
   // create import of comp in index file
   fs.appendFile(`${reducersFolder}/index.js`, exportLine, fsCallback)
 }

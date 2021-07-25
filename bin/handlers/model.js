@@ -1,5 +1,6 @@
 const fs = require('fs');
 const os = require('os');
+const { makeDirRecursive, capitalize, osPath } = require('../utils');
 const configProvider = require("../utils/configProvider");
 
 const modelBody = (name) => {
@@ -23,24 +24,17 @@ const modelBody = (name) => {
 }
 
 module.exports = (argv) => {
-  // check if models folder exists
-  // if doesn't try to create new one
-  try {
-    if (!fs.existsSync(modelsFolder)) {
-      fs.mkdirSync(modelsFolder, { recursive: true })
-    }
-  } catch (err) {
-    console.log(`Unable to create ${modelsFolder} folder`);
-  }
-  // capitalize first char of str
-  const modelName = argv.name;
+  const { models: modelsFolder } = configProvider().directories;
+  const modelName = capitalize(argv.name);
   const exportLine = `export { default as ${modelName} } from './${modelName}'; ${os.EOL}`
+  const modelPath = `${modelsFolder}/${modelName}.js`;
   const fsCallback = (err) => {
     if (err) console.log(err);
-    console.log(`created model ${argv.name}`);
+    console.log(`created model ${osPath(modelPath)}`);
   }
+  makeDirRecursive(modelsFolder);
   // create model file
-  fs.writeFile(`${modelsFolder}/${modelName}.js`, modelBody(modelName), fsCallback);
+  fs.writeFile(modelPath, modelBody(modelName), fsCallback);
   // create import of comp in index file
   fs.appendFile(`${modelsFolder}/index.js`, exportLine, fsCallback)
 }

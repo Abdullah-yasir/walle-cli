@@ -1,5 +1,6 @@
 const fs = require('fs');
 const os = require('os');
+const { makeDirRecursive, capitalize, osPath } = require('../utils');
 const configProvider = require("../utils/configProvider");
 
 const screenBody = (name) => {
@@ -24,22 +25,18 @@ const screenBody = (name) => {
 
 module.exports = (argv) => {
   const { screens: screensFolder } = configProvider().directories;
-
-  try {
-    if (!fs.existsSync(screensFolder)) {
-      fs.mkdirSync(screensFolder, { recursive: true })
-    }
-  } catch (err) {
-    console.log('Unable to create ./screens folder');
-  }
-  const screenName = argv.name;
+  const screenName = capitalize(argv.name);
   const exportLine = `export { default as ${screenName} } from './${screenName}'; ${os.EOL}`
+  const screenPath = `${screensFolder}/${screenName}.js`;
+
   const fsCallback = (err) => {
     if (err) console.log(err);
-    console.log(`created screen ${argv.name}`);
+    console.log(`created screen ${osPath(screenPath)}`);
   }
+
+  makeDirRecursive(screensFolder);
   // create component file
-  fs.writeFile(`${screensFolder}/${screenName}.js`, screenBody(screenName), fsCallback);
+  fs.writeFile(screenPath, screenBody(screenName), fsCallback);
   // create import of comp in index file
   fs.appendFile(`${screensFolder}/index.js`, exportLine, fsCallback)
 }

@@ -1,6 +1,8 @@
 const fs = require('fs');
 const os = require('os');
-const { camelToSnakeCase } = require('../utils');
+const { sep } = require('path');
+
+const { camelToSnakeCase, makeDirRecursive, osPath } = require('../utils');
 const configProvider = require("../utils/configProvider");
 
 const actionBody = (params) => {
@@ -112,23 +114,18 @@ module.exports = async (argv) => {
 
   const exportLine = `export { default as ${name} } from './${name}'; ${os.EOL}`;
   const config = { name, actionType, endpoint, async };
+  const actionPath = `${actionsFolder}/${name}.js`
 
   const fsCallback = (err) => {
     if (err) console.log(err);
-    console.log(`created action ${argv.name}`);
+    console.log(`created action ${osPath(actionPath)}`);
   }
   // check if actions folder exists
   // if doesn't try to create new one
-  try {
-    if (!fs.existsSync(actionsFolder)) {
-      fs.mkdirSync(actionsFolder, { recursive: true })
-    }
-  } catch (err) {
-    console.log(`Unable to create ${actionsFolder} folder`);
-  }
+  makeDirRecursive(actionsFolder);
 
   // create action file
-  fs.writeFile(`${actionsFolder}/${name}.js`, actionBody(config), fsCallback);
+  fs.writeFile(actionPath, actionBody(config), fsCallback);
   // create import of comp in index file
   fs.appendFile(`${actionsFolder}/index.js`, exportLine, fsCallback)
 }
