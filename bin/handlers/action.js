@@ -89,10 +89,13 @@ export default ${name} = (payload, callback) => {
         },2000);
         
         dispatch(action(data));
+
         if (typeof callback === 'function')
             callback(SUCCESS, 'Operation successful!');
+
       } catch(err) {
         console.log('${name} action > ', err);
+        
         if (typeof callback === 'function')
             callback(ERROR, 'An error occured while dispatching ${name} action!');
       }

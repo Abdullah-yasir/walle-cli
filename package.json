@@ -1,15 +1,15 @@
 {
-  "name": "maky-cli",
+  "name": "walle-cli",
   "version": "1.0.0",
-  "description": "cli to automate component creation in react native expo project",
+  "description": "CLI to automate component creation in react native expo project",
   "main": "bin/index.js",
   "scripts": {
-    "test": "maky-cli -test"
+    "test": "walle --test"
   },
   "author": "Abdullah Yasir",
   "license": "ISC",
   "bin": {
-    "maky-cli": "./bin/index.js"
+    "walle": "./bin/index.js"
   },
   "dependencies": {
     "yargs": "^13.3.2"
