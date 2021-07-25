@@ -1,12 +1,13 @@
 const fs = require('fs');
 const os = require('os');
 const configProvider = require("../utils/configProvider");
-const { reducers: reducersFolder } = configProvider().directories;
 
 // to do create all required constants first
 // then put all in import of reducer
 
 const reducerBody = (params) => {
+  const { reducers: reducersFolder } = configProvider().directories;
+
   const { name } = params;
   const strlName = name?.toLowerCase().replace('reducer', '').toUpperCase();
 

@@ -1,7 +1,6 @@
 const fs = require('fs');
 const os = require('os');
 const configProvider = require("../utils/configProvider");
-const { components: componentsFolder } = configProvider().directories;
 
 const compBody = (name) => {
   return `
@@ -24,6 +23,7 @@ const compBody = (name) => {
 }
 
 module.exports = (argv) => {
+  const { components: componentsFolder } = configProvider().directories;
   // check if components folder exists
   // if doesn't try to create new one
   try {

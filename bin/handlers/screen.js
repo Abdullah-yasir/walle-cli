@@ -1,8 +1,6 @@
 const fs = require('fs');
 const os = require('os');
 const configProvider = require("../utils/configProvider");
-const { screens: screensFolder } = configProvider().directories;
-
 
 const screenBody = (name) => {
   return `
@@ -25,8 +23,8 @@ const screenBody = (name) => {
 }
 
 module.exports = (argv) => {
-  // check if screens folder exists
-  // if doesn't try to create new one
+  const { screens: screensFolder } = configProvider().directories;
+
   try {
     if (!fs.existsSync(screensFolder)) {
       fs.mkdirSync(screensFolder, { recursive: true })

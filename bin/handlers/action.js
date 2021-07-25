@@ -2,7 +2,6 @@ const fs = require('fs');
 const os = require('os');
 const { camelToSnakeCase } = require('../utils');
 const configProvider = require("../utils/configProvider");
-const { actions: actionsFolder } = configProvider().directories;
 
 const actionBody = (params) => {
   const { name, actionType, endpoint, async, method } = params;
@@ -106,10 +105,11 @@ export default ${name} = (payload, callback) => {
 // get method type from action name
 // ie get, post, put, patch, delete from getUsers, putUsers, deleteUser
 
-module.exports = (argv) => {
-  console.log(argv);
+module.exports = async (argv) => {
+  const { actions: actionsFolder } = await configProvider().directories;
   const { type, endpoint, name, async } = argv;
   const actionType = camelToSnakeCase(type || name).toUpperCase();
+
   const exportLine = `export { default as ${name} } from './${name}'; ${os.EOL}`;
   const config = { name, actionType, endpoint, async };
 

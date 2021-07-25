@@ -1,15 +1,12 @@
-const fs = require('fs');
+const { existsSync, readFileSync } = require('fs');
 const { CONFIG_FILENAME, CONFIG_DEFAULTS } = require('../constants');
 
 const configProvider = function () {
-  let config = CONFIG_DEFAULTS;
-  // if config file exists return after parsing it
-  fs.existsSync(CONFIG_FILENAME) &&
-    fs.readFileSync(CONFIG_FILENAME, function (err, fileContents) {
-      if (err) console.log(err);
-      config = JSON.parse(fileContents);
-    })
-  return config;
+  if (existsSync(CONFIG_FILENAME)) {
+    let fileContents = readFileSync(CONFIG_FILENAME, { encoding: 'utf8', flag: 'r' });
+    return JSON.parse(fileContents);
+  }
+  return CONFIG_DEFAULTS;
 }
 
 module.exports = configProvider;

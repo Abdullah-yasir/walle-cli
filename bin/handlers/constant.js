@@ -2,10 +2,9 @@ const fs = require('fs');
 const os = require('os');
 const { camelToSnakeCase } = require('../utils');
 const configProvider = require("../utils/configProvider");
-const { constants: constantsFolder } = configProvider().directories;
-
 
 module.exports = (argv) => {
+  const { constants: constantsFolder } = configProvider().directories;
   const constantName = camelToSnakeCase(argv.key).toUpperCase(); // convert snake case then uppercase
   const constantValue = argv.value || constantName; // convert snake case then uppercase
   const constString = `export const ${constantName} = '${constantValue}'; ${os.EOL}`; // string to write in file

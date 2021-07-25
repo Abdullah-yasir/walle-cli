@@ -1,10 +1,9 @@
 const fs = require('fs');
 const os = require('os');
 const configProvider = require("../utils/configProvider");
-const { models: modelsFolder } = configProvider().directories;
-
 
 const modelBody = (name) => {
+  const { models: modelsFolder } = configProvider().directories;
   return `
     export class ${name} {
       constructor(

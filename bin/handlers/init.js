@@ -4,6 +4,7 @@ const { PROJECT_CLONE_SOURCE } = require('../constants');
 
 module.exports = (argv) => {
   const { projectName } = argv;
+
   const cloneProject = spawn('git', ['clone', PROJECT_CLONE_SOURCE, projectName])
 
   cloneProject.stdout.on("data", data => {
