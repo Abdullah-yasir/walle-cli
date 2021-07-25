@@ -1,6 +1,5 @@
 const fs = require('fs');
 const os = require('os');
-const { sep } = require('path');
 
 const { camelToSnakeCase, makeDirRecursive, osPath } = require('../utils');
 const configProvider = require("../utils/configProvider");
@@ -120,25 +119,11 @@ module.exports = async (argv) => {
     if (err) console.log(err);
     console.log(`created action ${osPath(actionPath)}`);
   }
-  // check if actions folder exists
-  // if doesn't try to create new one
-  makeDirRecursive(actionsFolder);
+
+  makeDirRecursive(actionsFolder); // create req folder if not exists
 
   // create action file
   fs.writeFile(actionPath, actionBody(config), fsCallback);
   // create import of comp in index file
   fs.appendFile(`${actionsFolder}/index.js`, exportLine, fsCallback)
 }
-/*
-
-api actions cases:
-params:
- get,
- put,
- patch,
- delete
-body:
- post,
- put,
- patch
-*/
