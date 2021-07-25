@@ -1,7 +1,7 @@
 {
   "name": "walle-cli",
   "version": "1.0.0",
-  "description": "CLI to automate component creation in react native expo project",
+  "description": "CLI to automate files creation in react native expo project",
   "main": "bin/index.js",
   "scripts": {
     "test": "walle --test"
