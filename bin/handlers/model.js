@@ -4,7 +4,6 @@ const { makeDirRecursive, capitalize, osPath } = require('../utils');
 const configProvider = require("../utils/configProvider");
 
 const modelBody = (name) => {
-  const { models: modelsFolder } = configProvider().directories;
   return `
     export class ${name} {
       constructor(

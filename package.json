@@ -1,10 +1,10 @@
 {
   "name": "walle-cli",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "CLI to automate files creation in react native expo project",
   "main": "bin/index.js",
   "scripts": {
-    "test": "walle --test"
+    "testInstall": "npm uninstall -g . ; npm install -g ."
   },
   "author": "Abdullah Yasir",
   "license": "ISC",

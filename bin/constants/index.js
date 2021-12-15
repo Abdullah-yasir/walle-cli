@@ -10,7 +10,7 @@ const DIR_STRUCTURE = [
   './src/frontend',
   './src/frontend/routes',
   './src/frontend/components',
-  './src/frontend/screens'
+  './src/frontend/screens',
 ];
 
 const CONFIG_DEFAULTS = {
@@ -22,17 +22,17 @@ const CONFIG_DEFAULTS = {
     reducers: './src/backend/store/reducers',
     screens: './src/frontend/screens',
     components: './src/frontend/components',
-    routes: './src/frontend/routes'
-  }
-}
+    routes: './src/frontend/routes',
+  },
+};
 
-const CONFIG_FILENAME = './makycli.json';
-const PROJECT_CLONE_SOURCE = 'https://github.com/Abdullah-yasir/java_assin_11mr21.git';
+const CONFIG_FILENAME = './walle-cli.json';
+const PROJECT_CLONE_SOURCE =
+  'https://github.com/Abdullah-yasir/java_assin_11mr21.git';
 
 module.exports = {
   DIR_STRUCTURE,
   CONFIG_FILENAME,
   CONFIG_DEFAULTS,
-  PROJECT_CLONE_SOURCE
-}
-
+  PROJECT_CLONE_SOURCE,
+};
