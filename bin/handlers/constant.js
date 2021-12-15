@@ -1,6 +1,6 @@
 const fs = require('fs');
 const os = require('os');
-const { camelToSnakeCase, makeDirRecursive, osPath } = require('../utils');
+const { camelToSnakeCase, makeDirRecursive, osPath, isDuplicate } = require('../utils');
 const configProvider = require("../utils/configProvider");
 
 module.exports = (argv) => {
@@ -12,13 +12,24 @@ module.exports = (argv) => {
   const constString = `export const ${constantName} = ${constantValue}; ${os.EOL}`; // string to write in file
   const constantPath = `${constantsFolder}/index.js`;
 
-  const appendFileCallback = (err) => {
-    if (err) console.log(err);
-    console.log(`created const ${osPath(constantPath)}`);
-    console.log(`const ${constantName} = ${constantValue}`);
-  }
 
-  makeDirRecursive(constantsFolder);
+  // check if constantName is already exist in constants folder/index.js
 
-  fs.appendFile(constantPath, constString, appendFileCallback)
+  isDuplicate(constantPath, constantName, (duplicate) => {
+    if (duplicate) {
+      console.log(`${constantName} is already exist in ${constantPath}`);
+
+    } else {
+      makeDirRecursive(constantsFolder); // create folder if not exist
+
+      fs.appendFile(constantPath, constString, (err) => {
+        if (err) console.log(err);
+        console.log(`created const ${osPath(constantPath)}`);
+        console.log(`const ${constantName} = ${constantValue}`);
+      })
+    }
+  });
+
+
+
 }

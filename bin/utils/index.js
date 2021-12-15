@@ -1,4 +1,4 @@
-const { existsSync, mkdirSync } = require('fs');
+const { existsSync, mkdirSync, readFile } = require('fs');
 const { sep } = require('path');
 
 const camelToSnakeCase = (str) => {
@@ -34,9 +34,23 @@ const osPath = (pathStr) => {
   return pathStr.replace(/[\/]/g, sep);
 }
 
+const isDuplicate = (filePath, needle, cb) => {
+  readFile(filePath, 'utf8', (err, data) => {
+    if (err) {
+      console.log(err);
+      return true;
+    }
+
+    if (data.includes(needle)) return cb(true);
+
+    return cb(false);
+  })
+}
+
 module.exports = {
   camelToSnakeCase,
   makeDirRecursive,
   capitalize,
-  osPath
+  osPath,
+  isDuplicate
 };
